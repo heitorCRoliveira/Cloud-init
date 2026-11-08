@@ -1,0 +1,18 @@
+#cloud-config
+# Definição do hostname da VM
+hostname: server-app-01
+
+# Atualização dos índices de pacotes (apt-get update)
+package_update: true
+
+# Instalação dos pacotes necessários
+packages:
+  - docker.io
+  - nginx
+
+# Comandos para habilitar (iniciar com o boot) e rodar os serviços
+runcmd:
+  - systemctl enable docker
+  - systemctl start docker
+  - systemctl enable nginx
+  - systemctl start nginx

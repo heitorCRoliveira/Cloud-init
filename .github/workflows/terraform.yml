@@ -1,0 +1,51 @@
+name: 'Terraform CI/CD Pipeline'
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+  # Permite execução manual e controlada para o Apply
+  workflow_dispatch:
+    inputs:
+      apply:
+        description: 'Aplicar a infraestrutura? (Digite "sim" para confirmar)'
+        required: true
+        default: 'nao'
+
+jobs:
+  terraform:
+    name: 'Terraform Plan & Apply'
+    runs-on: ubuntu-latest
+
+    env:
+      AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      AWS_REGION: 'us-east-1'
+
+    steps:
+      - name: Checkout do repositório
+        uses: actions/checkout@v3
+
+      - name: Configurar Terraform
+        uses: hashicorp/setup-terraform@v2
+        with:
+          terraform_version: 1.5.0
+
+      - name: Terraform Init
+        run: terraform init
+
+      - name: Terraform Format
+        run: terraform fmt -check
+        continue-on-error: true # Permite continuar mesmo se o formato não for ideal, mas alerta
+
+      - name: Terraform Validate
+        run: terraform validate
+
+      - name: Terraform Plan
+        run: terraform plan -out=tfplan
+
+      - name: Terraform Apply
+        # O Apply só rodará se for disparado manualmente e com a palavra "sim"
+        if: github.event_name == 'workflow_dispatch' && github.event.inputs.apply == 'sim'
+        run: terraform apply -auto-approve tfplan

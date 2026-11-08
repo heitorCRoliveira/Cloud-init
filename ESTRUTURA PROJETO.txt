@@ -1,0 +1,10 @@
+meu-projeto-infra/
+├── .github/
+│   └── workflows/
+│       └── terraform.yml
+├── main.tf
+├── variables.tf
+├── outputs.tf
+├── user-data.yaml
+├── .gitignore
+└── README.md
