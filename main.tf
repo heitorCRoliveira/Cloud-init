@@ -15,7 +15,7 @@ provider "aws" {
 
 # Cria a instância EC2
 resource "aws_instance" "web_server" {
-  ami           = "ami-020ba0ae8c230ae28"
+  ami           = "ami-0ee52710c51e09069"
   instance_type = "t3.micro"
   # Linha vpc_security_group_ids removida para usar o Default SG
   
