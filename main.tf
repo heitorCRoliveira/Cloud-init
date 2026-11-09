@@ -54,9 +54,9 @@ resource "aws_security_group" "web_sg" {
 
 # Cria a instância EC2
 resource "aws_instance" "web_server" {
-  ami                    = ami-020ba0ae8c230ae28
+  ami                    = "ami-020ba0ae8c230ae28"
   instance_type          = "t3.micro" # Elegível ao Free Tier
-  vpc_security_group_ids = vpc-0d0ef0902b99b637c
+  vpc_security_group_ids = [974443623508]
   
   # Entrega do arquivo Cloud-Init
   user_data = file("${path.module}/user-data.yaml")
