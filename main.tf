@@ -57,7 +57,7 @@ resource "aws_instance" "web_server" {
   ami                    = "ami-020ba0ae8c230ae28"
   instance_type          = "t3.micro" # Elegível ao Free Tier
   vpc_security_group_ids = [974443623508]
-  
+
   # Entrega do arquivo Cloud-Init
   user_data = file("${path.module}/user-data.yaml")
 
